@@ -215,17 +215,19 @@ def do_sky_plot(plot_engine, title, x,y, duration, sizes, output_html,y_axis_tit
         plt.show()
 
 
-def do_speed_plot(title, y_axis_title, subtitle, datapoints):
+def do_speed_plot(title, y_axis_title, subtitle, annotate, datapoints):
     """
-
     :param title: Title of Plot
     :param x: dict with data for x-axis (time)
     :param y: dict with data for y_axix (usage)
     :return:
     """
+
     print('do_speed_plot()')
 
     fig = plt.figure(figsize=(12,6))
+    #fig, ax = plt.subplots()
+
     plt.text(x=0.5, y=0.94, s=title, fontsize=14, ha="center", transform=fig.transFigure)
     plt.text(x=0.5, y=0.90, s='query: '+subtitle, fontsize=10, ha="center", transform=fig.transFigure)
 
@@ -254,6 +256,9 @@ def do_speed_plot(title, y_axis_title, subtitle, datapoints):
             # plot start and end points
             plt.plot(datapoint['timestamp'], datapoint['speed_bps'], 'r.',
                      datapoint['timestamp_end'], datapoint['speed_bps'], 'r.')
+            if annotate is not None:
+                plt.text(datapoint['timestamp'], datapoint['speed_bps'], datapoint[annotate]+'...',
+                         rotation='vertical', fontsize=8)
 
         if datapoint['type']=='ingesting':
             ingesting_x.append(datapoint['timestamp'])
@@ -263,7 +268,9 @@ def do_speed_plot(title, y_axis_title, subtitle, datapoints):
 
             plt.plot(datapoint['timestamp'], datapoint['speed_bps'], 'g.',
                      datapoint['timestamp_end'], datapoint['speed_bps'], 'g.')
-
+            if annotate is not None:
+                plt.text(datapoint['timestamp'], datapoint['speed_bps'], datapoint[annotate]+'...',
+                          rotation='vertical', fontsize=8)
     # plot lines
     # connect a line
     for i in range(0,len(observing_x),2):

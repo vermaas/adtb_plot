@@ -448,11 +448,11 @@ def main():
 
     # --------------------------------------------------------------------------------------------------------
     if (args.version):
-        print('--- atdb_plot.py - version 1.0.0 - 28 mar 2019 ---')
+        print('--- atdb_stats.py - version 1.0.0 - 9 jun 2019 ---')
         print('Copyright (C) 2019 - Nico Vermaas - ASTRON. This program comes with ABSOLUTELY NO WARRANTY;')
         return
 
-    print('--- atdb_plot.py - version 1.0.0 - 28 mar 2019 ---')
+    print('--- atdb_stats.py - version 1.0.0 - 9 jun 2019 ---')
     print('Copyright (C) 2019 - Nico Vermaas - ASTRON. This program comes with ABSOLUTELY NO WARRANTY;')
     if args.starttime != None:
         starttime = datetime.datetime.strptime(args.starttime, TIME_FORMAT)
