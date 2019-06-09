@@ -307,7 +307,7 @@ def do_ingest_speeds(args, starttime, endtime, plot_engine='plotly'):
     sorted_datapoints = sorted(datapoints, key=lambda k: k['timestamp'])
 
     # plot the results
-    atdb_plot.do_speed_plot(args.title, args.y_axis_title, args.query, sorted_datapoints)
+    atdb_plot.do_speed_plot(args.title, args.y_axis_title, args.query, args.annotate, sorted_datapoints)
 
 
 
@@ -412,6 +412,9 @@ def main():
     parser.add_argument("--query",
                         default=None,
                         help="query for the REST API, like 'taskID__contains=190607'")
+    parser.add_argument("--annotate",
+                        default=None,
+                        help="field to annotate datapoints in the (speed) plot, like 'taskid'")
     parser.add_argument("--interval",
                         default="day",
                         help="Shows bars per interval. Possible options: minute, hour, day, month")

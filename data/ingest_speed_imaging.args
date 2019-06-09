@@ -5,5 +5,7 @@
 --y_axis_title=I/O Speed in Gbps
 --starttime=2019-06-08 00:00
 --endtime=2019-06-09 00:00
---query=taskID__contains=190607
+--query=taskID__contains=190608
+--query=starttime__gt=2019-06-07T00:00:00Z&starttime__lt=2019-06-11T00:00:00Z
+--annotate=taskid
 --plot_engine=mathplotlib
