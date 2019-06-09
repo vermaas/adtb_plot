@@ -1,0 +1,10 @@
+--presentation=sky
+--plot_engine=mathplotlib
+--atdb_database_host=atdb.astron.nl
+--output_html=output/sky.html
+--title=Observations and Duration (hours)
+--y_axis_title=dec
+--plot_type=scatter
+--colormap=viridis
+--starttime=2018-01-01 00:00
+--endtime=2019-04-14 00:00

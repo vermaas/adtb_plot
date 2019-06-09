@@ -1,0 +1,7 @@
+--filename=data\2421.qbx
+--output_html=jan2019_gas_per_uur_vandaag.html
+--title= Januari 2019 - Gas per uur
+--interval=hour
+--type=bar
+--starttime=2019-01-01 00:00
+--endtime=2019-01-31 23:59

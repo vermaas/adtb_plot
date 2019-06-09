@@ -1,0 +1,13 @@
+--presentation=ingest_sizes
+--atdb_api=atdb.astron.nl/atdb
+--atdb_database_host=atdb.astron.nl
+--output_html=output/ingest_sizes_imaging.html
+--title=Ingest Sizes Imaging
+--observing_mode=imaging
+--color=#0081C9
+--y_axis_title=Size in TB
+--interval=day
+--plot_type=bar
+--starttime=2019-03-11 00:00
+--endtime=2019-05-21 11:00
+--plot_engine=mathplotlib

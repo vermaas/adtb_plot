@@ -1,0 +1,14 @@
+--presentation=ingest_sizes
+--atdb_api=atdb.astron.nl/atdb
+--atdb_database_host=atdb.astron.nl
+--output_html=output/ingest_sizes_arts_cumulative.html
+--title=Ingest Sizes ARTS
+--observing_mode=arts
+--data_aggregation=cumulative
+--color=#C8885E
+--y_axis_title=Size in TB
+--interval=day
+--plot_type=bar
+--starttime=2019-03-11 00:00
+--endtime=2019-05-11 00:00
+--plot_engine=mathplotlib
