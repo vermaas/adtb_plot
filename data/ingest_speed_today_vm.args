@@ -1,0 +1,6 @@
+--presentation=ingest_speed
+--atdb_host=http://192.168.22.22/atdb
+--title=I/O speeds on wcudata1 from ATDB
+--y_axis_title=I/O Speed in Gbps
+--query=taskID__contains=190607
+--plot_engine=mathplotlib

@@ -223,7 +223,7 @@ def do_speed_plot(title, y_axis_title, subtitle, annotate, datapoints):
     :return:
     """
 
-    print('do_speed_plot()')
+    #print('do_speed_plot()')
 
     fig = plt.figure(figsize=(12,6))
     #fig, ax = plt.subplots()
@@ -243,7 +243,8 @@ def do_speed_plot(title, y_axis_title, subtitle, annotate, datapoints):
     observing_y = []
     ingesting_x = []
     ingesting_y = []
-
+    ingest_error_x = []
+    ingest_error_y = []
     i = 0
     for datapoint in datapoints:
 
@@ -254,8 +255,8 @@ def do_speed_plot(title, y_axis_title, subtitle, annotate, datapoints):
             observing_y.append(datapoint['speed_bps'])
 
             # plot start and end points
-            plt.plot(datapoint['timestamp'], datapoint['speed_bps'], 'r.',
-                     datapoint['timestamp_end'], datapoint['speed_bps'], 'r.')
+            plt.plot(datapoint['timestamp'], datapoint['speed_bps'], 'b.',
+                     datapoint['timestamp_end'], datapoint['speed_bps'], 'b.')
             if annotate is not None:
                 plt.text(datapoint['timestamp'], datapoint['speed_bps'], datapoint[annotate]+'...',
                          rotation='vertical', fontsize=8)
@@ -271,17 +272,28 @@ def do_speed_plot(title, y_axis_title, subtitle, annotate, datapoints):
             if annotate is not None:
                 plt.text(datapoint['timestamp'], datapoint['speed_bps'], datapoint[annotate]+'...',
                           rotation='vertical', fontsize=8)
+
+        if datapoint['type'] == 'ingest_error':
+            ingest_error_x.append(datapoint['timestamp'])
+            ingest_error_x.append(datapoint['speed_bps'])
+
+            plt.plot(datapoint['timestamp'], datapoint['speed_bps'], 'r.')
+            if annotate is not None:
+                plt.text(datapoint['timestamp'], datapoint['speed_bps'], datapoint[annotate] + '...',
+                         rotation='vertical', fontsize=8)
+
     # plot lines
     # connect a line
     for i in range(0,len(observing_x),2):
-        plt.plot(observing_x[i:i + 2], observing_y[i:i + 2], 'r:')
+        plt.plot(observing_x[i:i + 2], observing_y[i:i + 2], 'b:')
 
     for i in range(0,len(ingesting_x),2):
         plt.plot(ingesting_x[i:i + 2], ingesting_y[i:i + 2], 'g-')
 
     # legend
-    plt.plot(observing_x[i:i + 2], observing_y[i:i + 2], 'r:',label='Observing')
+    plt.plot(observing_x[i:i + 2], observing_y[i:i + 2], 'b:',label='Observing')
     plt.plot(ingesting_x[i:i + 2], ingesting_y[i:i + 2], 'g-',label='Ingesting')
+    #plt.plot(ingest_error_x[i:i], 'r.',label='ingest error')
     plt.legend(loc='upper right')
 
     plt.show()

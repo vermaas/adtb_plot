@@ -1,10 +1,10 @@
 --presentation=ingest_speed
---atdb_host=http://atdb.astron.nl/atdb
+--atdb_host=http://atdb-test/atdb
 --title=I/O speeds on wcudata1 from ATDB
 --observing_mode=imaging
 --y_axis_title=I/O Speed in Gbps
 --starttime=2019-06-08 00:00
 --endtime=2019-06-09 00:00
 --query=taskID__contains=190608
---query=starttime__gt=2019-06-06T00:00:00Z&starttime__lt=2019-06-11T00:00:00Z
+--query=starttime__gt=2019-05-01T00:00:00Z&starttime__lt=2019-05-02T00:00:00Z
 --plot_engine=mathplotlib

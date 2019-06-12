@@ -21,6 +21,7 @@
 import os
 import sys
 import datetime
+import time
 
 import plotly
 import requests
@@ -47,6 +48,21 @@ ALTA_API_PROD = "https://alta.astron.nl/altapi"
 TIME_FORMAT = "%Y-%m-%d %H:%M"
 
 #--- common functions ---
+# this is a decorator that can be put in front (around) a function all to measure its execution time
+def timeit(method):
+    def timed(*args, **kw):
+        ts = time.time()
+        result = method(*args, **kw)
+        te = time.time()
+        if 'log_time' in kw:
+            name = kw.get('log_name', method.__name__.upper())
+            kw['log_time'][name] = int((te - ts) * 1000)
+        else:
+            print('execution time: %r  %2.2f ms' % \
+                  (method.__name__, (te - ts) * 1000))
+        return result
+    return timed
+
 def isCalibrator(name):
     """
     check if the provided name is in the (hardcoded) list of defined Apertif Calibrators
@@ -244,8 +260,8 @@ def do_sky(args, starttime, endtime):
             connection.close()
             print('Database connection closed.')
 
-
-def do_ingest_speeds(args, starttime, endtime, plot_engine='plotly'):
+@timeit
+def do_ingest_speeds(args):
 
     # The request header
     ATDB_HEADER = {
@@ -255,9 +271,6 @@ def do_ingest_speeds(args, starttime, endtime, plot_engine='plotly'):
     }
 
     # input parameters
-    starttime = datetime.datetime.strptime(args.starttime, '%Y-%m-%d %H:%M')
-    endtime = datetime.datetime.strptime(args.endtime, '%Y-%m-%d %H:%M')
-
 
     url = args.atdb_host + "/times?" + str(args.query)
 
@@ -289,7 +302,7 @@ def do_ingest_speeds(args, starttime, endtime, plot_engine='plotly'):
             datapoint['timestamp_end'] = timestamp + datetime.timedelta(seconds=result['duration'])
             datapoint['speed_bps'] = result['write_speed'] * 8 / 1000
             datapoints.append(datapoint)
-            print(datapoint)
+            #print(datapoint)
 
         if result['ingest_speed'] is not None:
             datapoint = {}
@@ -302,7 +315,19 @@ def do_ingest_speeds(args, starttime, endtime, plot_engine='plotly'):
             datapoint['timestamp_end'] = timestamp + datetime.timedelta(seconds=result['ingest_duration'])
             datapoint['speed_bps'] = result['ingest_speed'] * 8 / 1000
             datapoints.append(datapoint)
+
+            prev_ingest_speed = datapoint['speed_bps']
             # print(datapoint)
+
+        if result['timestamp_ingest_error'] is not None:
+            datapoint = {}
+            datapoint['taskid'] = result['taskID']
+            nofrag,frag = result['timestamp_ingest_error'].split('.')
+            timestamp = datetime.datetime.strptime(nofrag, '%Y-%m-%dT%H:%M:%S')
+            datapoint['timestamp'] = timestamp
+            datapoint['type'] = 'ingest_error'
+            datapoint['speed_bps'] = prev_ingest_speed
+            datapoints.append(datapoint)
 
     sorted_datapoints = sorted(datapoints, key=lambda k: k['timestamp'])
 
@@ -496,7 +521,7 @@ def main():
        do_sky(args, starttime, endtime)
 
     elif presentation=="ingest_speed":
-       do_ingest_speeds(args, starttime, endtime)
+       do_ingest_speeds(args)
 
     if args.remote_post_command != None:
         execute_remote_command(args.atdb_host, args.remote_post_command)
